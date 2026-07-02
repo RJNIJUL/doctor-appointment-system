@@ -17,37 +17,33 @@ def login_required(f):
 @login_required
 def dashboard():
     cur = mysql.connection.cursor()
-    
-    # Get upcoming appointments
+
     cur.execute("""
         SELECT a.id, u.name, d.specialization, a.appointment_date, 
                a.appointment_time, a.status
         FROM appointments a
-        JOIN users u ON a.doctor_id = u.id
-        JOIN doctors d ON a.doctor_id = d.user_id
+        JOIN doctors d ON a.doctor_id = d.id
+        JOIN users u ON d.user_id = u.id
         WHERE a.patient_id = %s AND a.status != 'cancelled'
         ORDER BY a.appointment_date ASC
     """, (session['user_id'],))
     appointments = cur.fetchall()
     cur.close()
-    
-    return render_template('patient/dashboard.html', 
+
+    return render_template('patient/dashboard.html',
                          appointments=appointments,
                          name=session['user_name'])
 
 @patient.route('/patient/search', methods=['GET', 'POST'])
 @login_required
 def search_doctors():
-    doctors = []
-    specializations = []
-    
     cur = mysql.connection.cursor()
     cur.execute("SELECT DISTINCT specialization FROM doctors")
     specializations = [row[0] for row in cur.fetchall()]
-    
+
     search = request.args.get('search', '')
     specialization = request.args.get('specialization', '')
-    
+
     query = """
         SELECT u.id, u.name, d.specialization, d.fee, d.experience_years, d.bio
         FROM users u
@@ -55,55 +51,59 @@ def search_doctors():
         WHERE u.role = 'doctor'
     """
     params = []
-    
+
     if search:
         query += " AND u.name LIKE %s"
         params.append(f'%{search}%')
     if specialization:
         query += " AND d.specialization = %s"
         params.append(specialization)
-    
+
     cur.execute(query, params)
     doctors = cur.fetchall()
     cur.close()
-    
+
     return render_template('patient/search.html',
                          doctors=doctors,
                          specializations=specializations,
                          search=search,
                          specialization=specialization)
-    
-    
+
 @patient.route('/patient/book/<int:doctor_id>', methods=['GET', 'POST'])
 @login_required
 def book_appointment(doctor_id):
     cur = mysql.connection.cursor()
-    
-    # Get doctor details
+
     cur.execute("""
-        SELECT u.name, d.specialization, d.fee, d.experience_years
+        SELECT u.name, d.specialization, d.fee, d.experience_years, d.id
         FROM users u
         JOIN doctors d ON u.id = d.user_id
         WHERE u.id = %s
     """, (doctor_id,))
     doctor = cur.fetchone()
-    
+
+    if not doctor:
+        flash('Doctor not found.', 'danger')
+        return redirect(url_for('patient.search_doctors'))
+
+    actual_doctor_id = doctor[4]
+
     if request.method == 'POST':
         date = request.form['date']
         time = request.form['time']
         notes = request.form.get('notes', '')
-        
-        # Conflict detection — check if slot already booked
+
+        # Conflict detection
         cur.execute("""
             SELECT id FROM appointments 
             WHERE doctor_id = %s 
             AND appointment_date = %s 
             AND appointment_time = %s
             AND status != 'cancelled'
-        """, (doctor_id, date, time))
-        
+        """, (actual_doctor_id, date, time))
+
         existing = cur.fetchone()
-        
+
         if existing:
             flash('This slot is already booked. Please choose a different time.', 'danger')
         else:
@@ -111,12 +111,12 @@ def book_appointment(doctor_id):
                 INSERT INTO appointments 
                 (patient_id, doctor_id, appointment_date, appointment_time, notes, status)
                 VALUES (%s, %s, %s, %s, %s, 'pending')
-            """, (session['user_id'], doctor_id, date, time, notes))
+            """, (session['user_id'], actual_doctor_id, date, time, notes))
             mysql.connection.commit()
             flash('Appointment booked successfully!', 'success')
             cur.close()
             return redirect(url_for('patient.dashboard'))
-    
+
     cur.close()
     return render_template('patient/book.html', doctor=doctor, doctor_id=doctor_id)
 
