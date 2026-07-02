@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find a Doctor - DocBook</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="/patient/dashboard">🏥 DocBook</a>
+        <a href="/patient/dashboard" class="btn btn-outline-light btn-sm">← Back to Dashboard</a>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h4 class="mb-4">🔍 Find a Doctor</h4>
+
+    <!-- Search Form -->
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <form method="GET">
+                <div class="row g-3">
+                    <div class="col-md-5">
+                        <input type="text" name="search" class="form-control" 
+                               placeholder="Search by doctor name..." value="{{ search }}">
+                    </div>
+                    <div class="col-md-4">
+                        <select name="specialization" class="form-select">
+                            <option value="">All Specializations</option>
+                            {% for s in specializations %}
+                            <option value="{{ s }}" {% if s == specialization %}selected{% endif %}>{{ s }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary w-100">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Doctor Cards -->
+    {% if doctors %}
+    <div class="row">
+        {% for doc in doctors %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-body">
+                    <h5 class="card-title">👨‍⚕️ Dr. {{ doc[1] }}</h5>
+                    <p class="text-primary fw-bold">{{ doc[2] }}</p>
+                    <p class="text-muted small">{{ doc[5] or 'No bio available' }}</p>
+                    <hr>
+                    <p>💼 Experience: <strong>{{ doc[4] or 'N/A' }} years</strong></p>
+                    <p>💰 Fee: <strong>₹{{ doc[3] or 'N/A' }}</strong></p>
+                </div>
+                <div class="card-footer bg-white">
+                    <a href="/patient/book/{{ doc[0] }}" class="btn btn-primary w-100">Book Appointment</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <h5 class="text-muted">No doctors found. Try a different search.</h5>
+    </div>
+    {% endif %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

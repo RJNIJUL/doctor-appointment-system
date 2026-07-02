@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocBook - Doctor Appointment System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .hero {
+            background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+            color: white;
+            padding: 100px 0;
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        .feature-card {
+            border: none;
+            border-radius: 16px;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #0d6efd;
+        }
+        footer {
+            background: #1a1a2e;
+            color: #aaa;
+            padding: 30px 0;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/">🏥 DocBook</a>
+        <div class="ms-auto">
+            <a href="/login" class="btn btn-outline-light me-2">Login</a>
+            <a href="/register" class="btn btn-light text-primary fw-bold">Get Started</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<div class="hero text-center">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-3">Book Doctor Appointments<br>Instantly 🏥</h1>
+        <p class="lead mb-4 opacity-75">Find the right doctor, pick a time slot, and manage your health visits — all in one place.</p>
+        <a href="/register" class="btn btn-light btn-lg text-primary fw-bold me-3">Get Started Free</a>
+        <a href="/login" class="btn btn-outline-light btn-lg">Login</a>
+    </div>
+</div>
+
+<!-- Stats Section -->
+<div class="bg-light py-5">
+    <div class="container">
+        <div class="row g-4 text-center">
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="text-muted">User Roles</div>
+                    <small class="text-muted">Patient · Doctor · Admin</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="text-muted">Slot Conflict Detection</div>
+                    <small class="text-muted">No double bookings, ever</small>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <div class="text-muted">Book Anytime</div>
+                    <small class="text-muted">No waiting on hold</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="container py-5">
+    <h2 class="text-center fw-bold mb-5">Everything you need 🚀</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card feature-card p-4 h-100">
+                <div class="feature-icon">🔍</div>
+                <h5 class="fw-bold">Find Doctors</h5>
+                <p class="text-muted">Search by name or specialization and view doctor profiles, experience, and fees before booking.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card feature-card p-4 h-100">
+                <div class="feature-icon">📅</div>
+                <h5 class="fw-bold">Book Instantly</h5>
+                <p class="text-muted">Pick a date and time slot. Our system automatically prevents double-bookings.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card feature-card p-4 h-100">
+                <div class="feature-icon">👨‍⚕️</div>
+                <h5 class="fw-bold">Doctor Dashboard</h5>
+                <p class="text-muted">Doctors can confirm, complete, or manage all their appointments in one place.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card feature-card p-4 h-100">
+                <div class="feature-icon">🛡️</div>
+                <h5 class="fw-bold">Secure Login</h5>
+                <p class="text-muted">Role-based authentication for patients, doctors, and admins with encrypted passwords.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card feature-card p-4 h-100">
+                <div class="feature-icon">📊</div>
+                <h5 class="fw-bold">Admin Control</h5>
+                <p class="text-muted">Full admin panel to manage users, doctors, patients, and all appointments.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card feature-card p-4 h-100">
+                <div class="feature-icon">❌</div>
+                <h5 class="fw-bold">Easy Cancellation</h5>
+                <p class="text-muted">Patients can cancel pending appointments anytime directly from their dashboard.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- How it works -->
+<div class="bg-light py-5">
+    <div class="container">
+        <h2 class="text-center fw-bold mb-5">How it works 👇</h2>
+        <div class="row text-center g-4">
+            <div class="col-md-3">
+                <div class="display-4 mb-3">1️⃣</div>
+                <h6 class="fw-bold">Register</h6>
+                <p class="text-muted small">Create your account as a patient or doctor</p>
+            </div>
+            <div class="col-md-3">
+                <div class="display-4 mb-3">2️⃣</div>
+                <h6 class="fw-bold">Find a Doctor</h6>
+                <p class="text-muted small">Search by name or specialization</p>
+            </div>
+            <div class="col-md-3">
+                <div class="display-4 mb-3">3️⃣</div>
+                <h6 class="fw-bold">Book a Slot</h6>
+                <p class="text-muted small">Pick date and time, add notes</p>
+            </div>
+            <div class="col-md-3">
+                <div class="display-4 mb-3">4️⃣</div>
+                <h6 class="fw-bold">Get Confirmed</h6>
+                <p class="text-muted small">Doctor confirms your appointment</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA -->
+<div class="bg-primary text-white text-center py-5">
+    <div class="container">
+        <h2 class="fw-bold mb-3">Ready to get started?</h2>
+        <p class="mb-4 opacity-75">Join DocBook today and simplify your healthcare appointments.</p>
+        <a href="/register" class="btn btn-light btn-lg text-primary fw-bold">Create Free Account</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="text-center">
+    <div class="container">
+        <p class="mb-1">🏥 <strong class="text-white">DocBook</strong> — Doctor Appointment System</p>
+        <p class="small">Built with Flask + MySQL by <strong class="text-white">Nijul Jamwal</strong></p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
